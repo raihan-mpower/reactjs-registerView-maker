@@ -11,21 +11,99 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
     <script type="text/babel" src="scripts/colResizable-1.6.min.js"></script>
+    <script type="text/babel" src="scripts/interact.min.js"></script>
+    <style type="text/css">
+      .drag-drop {
+  background-color: #29e;
+  color: white;
+  font-size: 12px;
+  font-family: sans-serif;
+  border-radius: 1px;
+  padding: 2px;
+  margin: 10px 5px;
+
+  width: 120px;
+  height: 50px;
+
+  /* This makes things *much* easier */
+  box-sizing: border-box;
+}
+#outer-dropzone {
+  height: 140px;
+}
+
+#inner-dropzone {
+  height: 80px;
+}
+
+.dropzone {
+  background-color: #ccc;
+  border: dashed 4px transparent;
+  border-radius: 4px;
+  margin: 10px auto 30px;
+  padding: 10px;
+  width: 80%;
+  transition: background-color 0.3s;
+}
+
+.drop-active {
+  border-color: #aaa;
+}
+
+.drop-target {
+  background-color: #29e;
+  border-color: #fff;
+  border-style: solid;
+}
+
+.drag-drop {
+  display: inline-block;
+  min-width: 40px;
+  padding: 2em 0.5em;
+
+  color: #fff;
+  background-color: #29e;
+  border: solid 2px #fff;
+
+  -webkit-transform: translate(0px, 0px);
+          transform: translate(0px, 0px);
+
+  transition: background-color 0.3s;
+}
+
+.drag-drop.can-drop {
+  color: #000;
+  background-color: #4e4;
+}
+
+
+    </style>
   </head>
   <body>
-    <div id="content0"></div>
-    <h1> the great divide</h1>
-    <div id="content"></div>
+     <div id="content"></div>
+     <div class = "dropzone">
+     <div id="yes-drop" class="draggable drag-drop"> #yes-drop </div>
     <table width="100%" >
     <tr> <th> header </th> <th> header </th> </tr>
-    <tr> <td> cell </td> <td> cell </td> </tr>              
-    <tr> <td> cell </td> <td> cell </td> </tr>              
-  </table>  
+    <tr> <td id = "columninquestion"> <div id="inner-dropzone" class="dropzone">#inner-dropzone</div></td> <td> <div id="outer-dropzone" class="dropzone">
+  #outer-dropzone</div> </td> </tr>
+  </table>
+  </div>
     <!-- <script type="text/babel" src="scripts/example.js"></script> -->
     <script type="text/babel">
     $(function(){
-  $("table").colResizable();
-});
+    var onSampleResized = function(e){
+    var table = $(e.currentTarget); //reference to the resized table
+    var column =  table.style.width;
+      alert(column);
+  };
+  $("table").colResizable({
+    liveDrag:true,
+    gripInnerHtml:"<div class='grip'></div>",
+    draggingClass:"dragging",
+    onResize:onSampleResized
+  });
+    });
       // To get started with this tutorial running your own code, simply remove
       // the script tag loading scripts/example.js and start writing code here.
       var CommentList = React.createClass({
